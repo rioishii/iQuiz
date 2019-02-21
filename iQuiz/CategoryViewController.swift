@@ -90,8 +90,9 @@ class CategoryViewController: UIViewController {
         self.parseJson(json)
     }
     
+    
     @IBAction func settingsAlert(_ sender: UIBarButtonItem) {
-        let alert = UIAlertController(title: "Retrieve JSON", message: nil, preferredStyle: .alert)
+        let alert = UIAlertController(title: "Retrieve JSON", message: "Enter an URL to fetch more categories!", preferredStyle: .alert)
         alert.addTextField(configurationHandler: urlTextField)
         alert.addAction(UIAlertAction(title: "Check Now", style: .default, handler: self.fetchHandler))
         alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { _ in NSLog("\"Cancel\" pressed.")}))

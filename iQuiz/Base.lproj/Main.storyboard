@@ -82,14 +82,9 @@
                         <viewLayoutGuide key="safeArea" id="sue-Ql-DP2"/>
                     </view>
                     <navigationItem key="navigationItem" title="Categories" id="7ZC-X0-wmw">
-                        <barButtonItem key="leftBarButtonItem" style="plain" id="ET1-TP-VlJ">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Huw-s5-3n9">
-                                <rect key="frame" x="16" y="7" width="83" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Settings"/>
-                            </button>
+                        <barButtonItem key="leftBarButtonItem" title="Settings" id="bn5-bj-ABJ">
                             <connections>
-                                <action selector="settingsAlert:" destination="SP1-ec-c6F" id="pUI-pq-D7E"/>
+                                <action selector="settingsAlert:" destination="SP1-ec-c6F" id="OjM-1o-yg4"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
