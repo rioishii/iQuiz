@@ -13,6 +13,7 @@ class CategoryViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     var categories: [Category] = []
     var urlTextField: UITextField?
+    var jsonUrlString = "https://tednewardsandbox.site44.com/questions.json"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,7 +21,6 @@ class CategoryViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
-        let jsonUrlString = "https://tednewardsandbox.site44.com/questions.json"
         loadJsonData(jsonUrlString: jsonUrlString)
     }
     
@@ -90,10 +90,22 @@ class CategoryViewController: UIViewController {
         self.parseJson(json)
     }
     
-    //    @IBAction func settingsAlert(_ sender: UIBarButtonItem) {
-    //        let alert = UIAlertController(title: "Retrieve JSON", message: nil, preferredStyle: .alert)
-    //        self.present(alert, animated: true, completion: nil)
-    //    }
+    @IBAction func settingsAlert(_ sender: UIBarButtonItem) {
+        let alert = UIAlertController(title: "Retrieve JSON", message: nil, preferredStyle: .alert)
+        alert.addTextField(configurationHandler: urlTextField)
+        alert.addAction(UIAlertAction(title: "Check Now", style: .default, handler: self.fetchHandler))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { _ in NSLog("\"Cancel\" pressed.")}))
+        self.present(alert, animated: true, completion: {})
+    }
+
+    func urlTextField(textField: UITextField!) {
+        urlTextField = textField
+    }
+
+    func fetchHandler(alert: UIAlertAction) {
+        jsonUrlString = (urlTextField?.text)!.isEmpty ? "https://tednewardsandbox.site44.com/questions.json" : (urlTextField?.text)!
+        loadJsonData(jsonUrlString: jsonUrlString)
+    }
     
 }
 
