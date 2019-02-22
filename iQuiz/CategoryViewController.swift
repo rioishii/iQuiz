@@ -64,7 +64,7 @@ class CategoryViewController: UIViewController {
                 for answer in question["answers"] as! [AnyObject] {
                     answers.append(answer as! String)
                 }
-                questions.append(Question(question: questionTitle, answers: answers, correctAnswer: answers[Int(correctIndex)!]))
+                questions.append(Question(question: questionTitle, answers: answers, correctAnswer: answers[Int(correctIndex)! - 1]))
                 print(questions)
             }
             

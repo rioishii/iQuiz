@@ -16,8 +16,8 @@ class QuestionViewController: UIViewController {
     var questions : [Question]?
     var questionIndex = 0
     var answerIndex = 0
-    var isCorrectAnswer = false
     var selectedAnswer = ""
+    var selectedCorrectAnswer = false
     var score = 0
     
     override func viewDidLoad() {
@@ -27,6 +27,17 @@ class QuestionViewController: UIViewController {
         tableView.dataSource = self
         
         questionLabel.text = self.questions![questionIndex].question
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let rvc = segue.destination as! AnswerViewController
+        rvc.selectedCorrectAnswer = self.selectedCorrectAnswer
+        rvc.questionIndex = self.questionIndex
+        if (self.selectedCorrectAnswer) {
+            self.score += 1
+        }
+        rvc.score = self.score
+        rvc.questions = self.questions!
     }
     
 }
@@ -45,6 +56,12 @@ extension QuestionViewController: UITableViewDataSource, UITableViewDelegate {
             answerIndex += 1
         }
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectedAnswer = self.questions![questionIndex].answers[indexPath.row]
+        let correctAnswer = self.questions![questionIndex].correctAnswer
+        self.selectedCorrectAnswer = (selectedAnswer == correctAnswer) ? true : false
     }
 }
 
