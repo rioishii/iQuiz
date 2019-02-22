@@ -47,12 +47,11 @@ class AnswerViewController: UIViewController {
             qvc.questions = self.questions
             qvc.questionIndex = self.questionIndex! + 1
             qvc.score = self.score!
+        } else {
+            let rvc = segue.destination as! ResultViewController
+            rvc.questions = self.questions
+            rvc.score = self.score
         }
-//        else {
-//            let vc = segue.destination as! ResultViewController
-//            rvc.questions = self.questions
-//            rvc.currentScore = self.currentScore
-//        }
     }
 
 }

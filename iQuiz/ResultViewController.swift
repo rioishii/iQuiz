@@ -10,21 +10,21 @@ import UIKit
 
 class ResultViewController: UIViewController {
     
+    @IBOutlet weak var finalScore: UILabel!
+    @IBOutlet weak var label: UILabel!
+    
+    var score : Int?
+    var questions : [Question] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        finalScore.text = "\(self.score!) / \(self.questions.count)"
+        if (self.score == questions.count) {
+            label.text = "Perfect!"
+        } else {
+            label.text = "Nice Try better luck next time!"
+        }
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
