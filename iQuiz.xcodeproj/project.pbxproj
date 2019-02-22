@@ -14,6 +14,7 @@
 		4169A77F221DF73F000E858D /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4169A77E221DF73F000E858D /* Category.swift */; };
 		4169A781221DF834000E858D /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4169A780221DF834000E858D /* Question.swift */; };
 		4169A783221E066C000E858D /* CheckInternet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4169A782221E066C000E858D /* CheckInternet.swift */; };
+		4169A787221F65B0000E858D /* AnswerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4169A786221F65B0000E858D /* AnswerCell.swift */; };
 		41C045BA220FA75C007126F0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C045B9220FA75C007126F0 /* AppDelegate.swift */; };
 		41C045BF220FA75C007126F0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 41C045BD220FA75C007126F0 /* Main.storyboard */; };
 		41C045C1220FA75C007126F0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 41C045C0220FA75C007126F0 /* Assets.xcassets */; };
@@ -29,6 +30,7 @@
 		4169A77E221DF73F000E858D /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		4169A780221DF834000E858D /* Question.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
 		4169A782221E066C000E858D /* CheckInternet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInternet.swift; sourceTree = "<group>"; };
+		4169A786221F65B0000E858D /* AnswerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerCell.swift; sourceTree = "<group>"; };
 		41C045B6220FA75C007126F0 /* iQuiz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iQuiz.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		41C045B9220FA75C007126F0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		41C045BE220FA75C007126F0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -68,6 +70,7 @@
 		41C045B8220FA75C007126F0 /* iQuiz */ = {
 			isa = PBXGroup;
 			children = (
+				4169A786221F65B0000E858D /* AnswerCell.swift */,
 				41C045B9220FA75C007126F0 /* AppDelegate.swift */,
 				41C045CB220FA7EC007126F0 /* CategoryViewController.swift */,
 				4169A782221E066C000E858D /* CheckInternet.swift */,
@@ -165,6 +168,7 @@
 				4169A783221E066C000E858D /* CheckInternet.swift in Sources */,
 				4169A77D221DF5F4000E858D /* CategoryCell.swift in Sources */,
 				4169A77F221DF73F000E858D /* Category.swift in Sources */,
+				4169A787221F65B0000E858D /* AnswerCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

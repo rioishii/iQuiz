@@ -10,21 +10,42 @@ import UIKit
 
 class QuestionViewController: UIViewController {
 
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var questionLabel: UILabel!
+    
+    var questions : [Question]?
+    var questionIndex = 0
+    var answerIndex = 0
+    var isCorrectAnswer = false
+    var selectedAnswer = ""
+    var score = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+        
+        questionLabel.text = self.questions![questionIndex].question
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
+
+extension QuestionViewController: UITableViewDataSource, UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.questions![questionIndex].answers.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let question = questions![questionIndex]
+        let cell = tableView.dequeueReusableCell(withIdentifier: "AnswerCell") as! AnswerCell
+        if (answerIndex <= question.answers.count) {
+            cell.answerLabel.text = question.answers[answerIndex]
+            answerIndex += 1
+        }
+        return cell
+    }
+}
+
+

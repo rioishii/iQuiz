@@ -26,7 +26,6 @@ class CategoryViewController: UIViewController {
     
     func loadJsonData(jsonUrlString: String) {
         categories.removeAll()
-        tableView.reloadData()
         
         guard let url = URL(string: jsonUrlString) else { return }
         URLSession.shared.dataTask(with: url) { (data, reponse, err) in
@@ -65,7 +64,8 @@ class CategoryViewController: UIViewController {
                 for answer in question["answers"] as! [AnyObject] {
                     answers.append(answer as! String)
                 }
-                questions.append(Question(question: questionTitle, answers: answers, correctAnswer: answers[Int(correctIndex)! - 1]))
+                questions.append(Question(question: questionTitle, answers: answers, correctAnswer: answers[Int(correctIndex)!]))
+                print(questions)
             }
             
             var image: UIImage
@@ -95,7 +95,7 @@ class CategoryViewController: UIViewController {
         let alert = UIAlertController(title: "Retrieve JSON", message: "Enter an URL to fetch more categories!", preferredStyle: .alert)
         alert.addTextField(configurationHandler: urlTextField)
         alert.addAction(UIAlertAction(title: "Check Now", style: .default, handler: self.fetchHandler))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { _ in NSLog("\"Cancel\" pressed.")}))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
         self.present(alert, animated: true, completion: {})
     }
 
@@ -106,6 +106,14 @@ class CategoryViewController: UIViewController {
     func fetchHandler(alert: UIAlertAction) {
         jsonUrlString = (urlTextField?.text)!.isEmpty ? "https://tednewardsandbox.site44.com/questions.json" : (urlTextField?.text)!
         loadJsonData(jsonUrlString: jsonUrlString)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let cell = sender as! CategoryCell
+        let questions = cell.questions
+        let destination = segue.destination as! UINavigationController
+        let qvc = destination.topViewController as! QuestionViewController
+        qvc.questions = questions
     }
     
 }
