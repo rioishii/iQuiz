@@ -31,8 +31,8 @@ class CategoryViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
-        if !network || !CheckInternet.connectedToNetwork() {
-            loadOfflineData()
+        if !network {
+            self.loadOfflineData()
         }
         
         loadJsonData(jsonUrlString: jsonUrlString)
@@ -59,8 +59,8 @@ class CategoryViewController: UIViewController {
                             self.tableView.reloadData()
                         }
                         
-                        let string = String(data: data, encoding: String.Encoding.utf8)
-                        UserDefaults.standard.set(string, forKey: "data")
+                        let encodedData = String(data: data, encoding: String.Encoding.utf8)
+                        UserDefaults.standard.set(encodedData, forKey: "data")
                         
                     } catch let jsonErr {
                         print("Error serializing json:", jsonErr)
@@ -103,9 +103,9 @@ class CategoryViewController: UIViewController {
     }
     
     func loadOfflineData() {
-        let string = UserDefaults.standard.object(forKey: "data") as! String!
-        let jsonData = string?.data(using: .utf8)!
-        let json = try! JSONSerialization.jsonObject(with: jsonData!, options: .allowFragments) as! Array<[String: Any]>
+        let string = UserDefaults.standard.object(forKey: "data") as! String
+        let jsonData = string.data(using: .utf8)!
+        let json = try! JSONSerialization.jsonObject(with: jsonData, options: .allowFragments) as! Array<[String: Any]>
         self.parseJson(json)
     }
     
