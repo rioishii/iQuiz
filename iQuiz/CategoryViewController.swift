@@ -13,7 +13,6 @@ class CategoryViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     var categories: [Category] = []
     var urlTextField: UITextField?
-    var jsonData = Array<[String: Any]>()
     var jsonUrlString = "https://tednewardsandbox.site44.com/questions.json"
     var refreshControl : UIRefreshControl!
     var network : Bool!
@@ -32,7 +31,7 @@ class CategoryViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
-        if !network {
+        if !network || !CheckInternet.connectedToNetwork() {
             loadOfflineData()
         }
         
@@ -96,7 +95,7 @@ class CategoryViewController: UIViewController {
             } else if subject == "Marvel Super Heroes" {
                 image = UIImage(named: "marvel")!
             } else {
-                image = UIImage(named: "Blank")!
+                image = UIImage(named: "apple")!
             }
             let category = Category(image: image, subject: subject, desc: description, questions: questions)
             self.categories.append(category)
