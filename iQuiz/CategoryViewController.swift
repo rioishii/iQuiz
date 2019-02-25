@@ -13,43 +13,63 @@ class CategoryViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     var categories: [Category] = []
     var urlTextField: UITextField?
+    var jsonData = Array<[String: Any]>()
     var jsonUrlString = "https://tednewardsandbox.site44.com/questions.json"
+    var refreshControl : UIRefreshControl!
+    var network : Bool!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        network = checkNetwork()
+        
+        tableView.tableFooterView = UIView()
+        refreshControl = UIRefreshControl()
+        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl.addTarget(self, action: #selector(refresh(_:)), for: UIControl.Event.valueChanged)
+        tableView.refreshControl = refreshControl
+        
         tableView.delegate = self
         tableView.dataSource = self
+        
+        if !network {
+            loadOfflineData()
+        }
         
         loadJsonData(jsonUrlString: jsonUrlString)
     }
     
     func loadJsonData(jsonUrlString: String) {
         categories.removeAll()
+        tableView.reloadData()
         
         guard let url = URL(string: jsonUrlString) else { return }
-        URLSession.shared.dataTask(with: url) { (data, reponse, err) in
-            guard let data = data else { return }
-            
-            if !CheckInternet.Connection() {
-                self.loadOfflineData()
-            }
         
-            do {
-                let json = try JSONSerialization.jsonObject(with: data) as! Array<[String: Any]>
-                self.parseJson(json)
-                
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
+        if network {
+            URLSession.shared.dataTask(with: url) { (data, reponse, err) in
+                if err != nil {
+                    self.makeAlert("Download Status", "Failed")
+                } else {
+                    guard let data = data else { return }
+                    
+                    do {
+                        let json = try JSONSerialization.jsonObject(with: data) as! Array<[String: Any]>
+                        self.parseJson(json)
+                        
+                        DispatchQueue.main.async {
+                            self.tableView.reloadData()
+                        }
+                        
+                        let string = String(data: data, encoding: String.Encoding.utf8)
+                        UserDefaults.standard.set(string, forKey: "data")
+                        
+                    } catch let jsonErr {
+                        print("Error serializing json:", jsonErr)
+                    }
                 }
-    
-                let string = String(data: data, encoding: String.Encoding.utf8)
-                UserDefaults.standard.set(string, forKey: "data")
-                
-            } catch let jsonErr {
-                print("Error serializing json:", jsonErr)
-            }
             }.resume()
+        }
+        
     }
     
     func parseJson(_ json: Array<[String: Any]>) {
@@ -90,7 +110,6 @@ class CategoryViewController: UIViewController {
         self.parseJson(json)
     }
     
-    
     @IBAction func settingsAlert(_ sender: UIBarButtonItem) {
         let alert = UIAlertController(title: "Retrieve JSON", message: "Enter an URL to fetch more categories!", preferredStyle: .alert)
         alert.addTextField(configurationHandler: urlTextField)
@@ -106,6 +125,30 @@ class CategoryViewController: UIViewController {
     func fetchHandler(alert: UIAlertAction) {
         jsonUrlString = (urlTextField?.text)!.isEmpty ? "https://tednewardsandbox.site44.com/questions.json" : (urlTextField?.text)!
         loadJsonData(jsonUrlString: jsonUrlString)
+    }
+    
+    func makeAlert(_ ti: String, _ mes: String) -> Void {
+        let alert = UIAlertController(title: ti, message: mes,
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+            alert.dismiss(animated: true, completion: nil)
+        }))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func checkNetwork() -> Bool {
+        let userDefaults = UserDefaults.standard
+        userDefaults.synchronize()
+        network = userDefaults.bool(forKey: "networkPreference")
+        if !CheckInternet.connectedToNetwork() {
+            makeAlert("Connectivity", "No network connection available")
+        }
+        return CheckInternet.connectedToNetwork()
+    }
+    
+    @objc func refresh(_ sender: AnyObject) {
+        tableView.reloadData()
+        self.refreshControl.endRefreshing()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
