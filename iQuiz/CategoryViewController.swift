@@ -84,7 +84,6 @@ class CategoryViewController: UIViewController {
                     answers.append(answer as! String)
                 }
                 questions.append(Question(question: questionTitle, answers: answers, correctAnswer: answers[Int(correctIndex)! - 1]))
-                print(questions)
             }
             
             var image: UIImage
