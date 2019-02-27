@@ -33,9 +33,9 @@ class CategoryViewController: UIViewController {
         
         if !network {
             self.loadOfflineData()
+        } else {
+            loadJsonData(jsonUrlString: jsonUrlString)
         }
-        
-        loadJsonData(jsonUrlString: jsonUrlString)
     }
     
     func loadJsonData(jsonUrlString: String) {
@@ -60,7 +60,7 @@ class CategoryViewController: UIViewController {
                         }
                         
                         let encodedData = String(data: data, encoding: String.Encoding.utf8)
-                        UserDefaults.standard.set(encodedData, forKey: "data")
+                        UserDefaults.standard.set(encodedData, forKey: "jsonData")
                         
                     } catch let jsonErr {
                         print("Error serializing json:", jsonErr)
@@ -103,10 +103,13 @@ class CategoryViewController: UIViewController {
     }
     
     func loadOfflineData() {
-        let string = UserDefaults.standard.object(forKey: "data") as! String
+        let string = UserDefaults.standard.object(forKey: "jsonData") as! String
         let jsonData = string.data(using: .utf8)!
         let json = try! JSONSerialization.jsonObject(with: jsonData, options: .allowFragments) as! Array<[String: Any]>
         self.parseJson(json)
+//        DispatchQueue.main.async {
+            self.tableView.reloadData()
+//        }
     }
     
     @IBAction func settingsAlert(_ sender: UIBarButtonItem) {
