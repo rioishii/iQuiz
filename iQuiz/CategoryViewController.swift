@@ -107,9 +107,7 @@ class CategoryViewController: UIViewController {
         let jsonData = string.data(using: .utf8)!
         let json = try! JSONSerialization.jsonObject(with: jsonData, options: .allowFragments) as! Array<[String: Any]>
         self.parseJson(json)
-//        DispatchQueue.main.async {
-            self.tableView.reloadData()
-//        }
+        self.tableView.reloadData()
     }
     
     @IBAction func settingsAlert(_ sender: UIBarButtonItem) {
